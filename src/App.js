@@ -1,12 +1,62 @@
-import React from 'react';
+import React, { Component } from "react";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <h2>I am App</h2>
-    </div>
-  );
+class App extends Component {
+  state = {
+    posts: []
+  };
+
+  handleAdd = ()=>{
+    console.log("Ädd Post")
+  }
+
+handleUpdate = (post) =>{
+  console.log("Update", post)
+}
+
+handleDelete = (post) =>{
+console.log("Delete", post)
+}
+
+  render() {
+    return (
+      <>
+        <button className="btm btn-primary" onClick={this.handleAdd}>
+          Add
+        </button>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.posts.map(post =>(
+              <tr key={post.id}>
+               <td>{post.title}</td> 
+               <td>
+                 <button className="btn btn-info btn-sm"
+                 onClick={()=>this.handleUpdate(post)}>
+                   Update
+                 </button>
+               </td>
+               <td>
+                 <button
+                 className="btn btn-danger btn-sm"
+                 onClick={() =>this.handleDelete(post)}
+                 >
+                 Delete
+                 </button>
+               </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>
+    );
+  }
 }
 
 export default App;
