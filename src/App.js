@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import './App.css';
+import { indexOf } from "lodash";
 
 const apiEndpoint = "https://jsonplaceholder.typicode.com/posts"
 
@@ -23,8 +24,15 @@ class App extends Component {
 
   }
 
-handleUpdate = (post) =>{
-  console.log("Update", post)
+handleUpdate = async post =>{
+  post.title ="Post Updated"
+  axios.put(apiEndpoint + "/" + post.id, post)
+  const posts = [...this.state.posts]
+  const index = posts.indexOf(post)
+  posts[index] = {...post}
+  this.setState({posts})
+
+
 }
 
 handleDelete = (post) =>{
