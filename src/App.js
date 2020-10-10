@@ -1,13 +1,26 @@
 import React, { Component } from "react";
+import axios from "axios";
 import './App.css';
+
+const apiEndpoint = "https://jsonplaceholder.typicode.com/posts"
 
 class App extends Component {
   state = {
     posts: []
   };
 
-  handleAdd = ()=>{
-    console.log("Ädd Post")
+  async componentDidMount() {
+    const {data:posts} = await axios.get(apiEndpoint);
+    this.setState({posts})
+     
+  }
+
+  handleAdd = async ()=>{
+    const obj =  {title: "I am a winner", body: "When are we going to end sars in Nigeria"}
+    const {data: post} =  await axios.post(apiEndpoint, obj )
+    const posts = [post,...this.state.posts]
+    this.setState({posts})
+
   }
 
 handleUpdate = (post) =>{
