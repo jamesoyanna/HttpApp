@@ -2,6 +2,16 @@ import React, { Component } from "react";
 import axios from "axios";
 import './App.css';
 
+axios.interceptors.response.use(null, error =>{
+  const expectedError = error.resonse && error.response.status >= 400 && error.response.status < 500
+  if ( !expectedError){
+  console.log("interceptor called", error);
+  alert("An unexpected error occured")
+}
+
+  return Promise.reject(error)
+});
+
 const apiEndpoint = "https://jsonplaceholder.typicode.com/posts"
 
 class App extends Component {
@@ -46,10 +56,7 @@ await axios.delete( apiEndpoint + "/" + post.id);
   if (ex.response && ex.response.status ===404)
 
   alert("This post has already been deleted");
-  else {
-    console.log("Logging the error", ex);
-    alert("An unexpected error occured")
-  }
+ 
   this.setState({posts: originalPosts})
 
 }
