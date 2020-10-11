@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import httpService from "./services/httpService";
+import config from "./config.json";
 import './App.css';
 
 
-
-const apiEndpoint = "https://jsonplaceholder.typicode.com/posts"
 
 class App extends Component {
   state = {
@@ -12,14 +11,14 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    const {data:posts} = await httpService.get(apiEndpoint);
+    const {data:posts} = await httpService.get(config.apiEndpoint);
     this.setState({posts})
      
   }
 
   handleAdd = async ()=>{
     const obj =  {title: "I am a winner", body: "When are we going to end sars in Nigeria"}
-    const {data: post} =  await httpService.post(apiEndpoint, obj )
+    const {data: post} =  await httpService.post(config.apiEndpoint, obj )
     const posts = [post,...this.state.posts]
     this.setState({posts})
 
@@ -27,7 +26,7 @@ class App extends Component {
 
 handleUpdate = async post =>{
  post.title = "You updated me";
- await httpService.put(apiEndpoint + "/" + post.id, post);
+ await httpService.put(config.apiEndpoint + "/" + post.id, post);
 
  const posts  = [...this.state.posts];
  const index = posts.indexOf(post);
@@ -43,7 +42,7 @@ const posts = this.state.posts.filter(p => p.id !== post.id)
 this.setState({posts})
 
 try{
-await httpService.delete( apiEndpoint + "/" + post.id);
+await httpService.delete( config.apiEndpoint + "/" + post.id);
 }catch(ex){
   if (ex.response && ex.response.status ===404)
 
